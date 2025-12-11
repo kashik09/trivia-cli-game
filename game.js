@@ -21,15 +21,51 @@ class TriviaGame {
     await this.playGame();
   }
 
-  // Main game loop
-  async playGame() {
-    // We'll build this next!
-  }
+    // Main game loop
+    async playGame() {
+    // Loop through all questions
+    for (let i = 0; i < questions.length; i++) {
+        this.currentQuestion = i;
+        const question = questions[i];
+        
+        console.log(chalk.blue(`\n📝 Question ${i + 1} of ${questions.length}`));
+        console.log(chalk.white.bold(`\n${question.question}\n`));
+        
+        // Create choices for inquirer
+        const choices = question.options.map((option, index) => ({
+        name: option,
+        value: index,
+        }));
+        
+        // Get user answer with timer
+        const userAnswer = await this.askQuestionWithTimer(choices, i);
+        
+        // Check if answer is correct
+        const isCorrect = userAnswer === question.correctAnswer;
+        
+        if (isCorrect) {
+        this.score++;
+        console.log(chalk.green.bold('✅ Correct!\n'));
+        } else {
+        console.log(chalk.red.bold(`❌ Wrong! Correct answer: ${question.options[question.correctAnswer]}\n`));
+        }
+        
+        // Small pause between questions
+        await new Promise(resolve => setTimeout(resolve, 1500));
+    }
+    
+    this.displayResults();
+    }
 
-  // Display final results
-  displayResults() {
-    // We'll build this next!
-  }
+    // Ask question with timer
+    async askQuestionWithTimer(choices, questionIndex) {
+    const answer = await select({
+        message: 'Your answer:',
+        choices: choices,
+    });
+    
+    return answer;
+    }
 }
 
 module.exports = TriviaGame;
