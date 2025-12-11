@@ -57,6 +57,36 @@ class TriviaGame {
     this.displayResults();
     }
 
+    // Display final results
+    displayResults() {
+    const endTime = Date.now();
+    this.totalTime = Math.floor((endTime - this.startTime) / 1000);
+    
+    console.clear();
+    console.log(chalk.cyan.bold('\n🏁 GAME OVER! 🏁\n'));
+    console.log(chalk.yellow('━'.repeat(40)));
+    console.log(chalk.white.bold(`\n📊 Your Results:\n`));
+    console.log(chalk.green(`✅ Correct Answers: ${this.score}`));
+    console.log(chalk.red(`❌ Wrong Answers: ${questions.length - this.score}`));
+    console.log(chalk.blue(`📝 Total Questions: ${questions.length}`));
+    console.log(chalk.magenta(`⏱️  Time Taken: ${this.totalTime} seconds`));
+    
+    // Calculate percentage
+    const percentage = ((this.score / questions.length) * 100).toFixed(1);
+    console.log(chalk.cyan(`\n🎯 Score: ${percentage}%`));
+    
+    // Performance message
+    if (percentage >= 80) {
+        console.log(chalk.green.bold('\n🌟 Excellent work! You\'re a trivia master! 🌟\n'));
+    } else if (percentage >= 60) {
+        console.log(chalk.yellow.bold('\n👍 Good job! Keep practicing! 👍\n'));
+    } else {
+        console.log(chalk.blue.bold('\n💪 Nice try! Practice makes perfect! 💪\n'));
+    }
+    
+    console.log(chalk.yellow('━'.repeat(40) + '\n'));
+    }
+
     // Ask question with timer
     async askQuestionWithTimer(choices, questionIndex) {
     const answer = await select({
