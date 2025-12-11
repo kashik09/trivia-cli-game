@@ -57,19 +57,20 @@ class TriviaGame {
     this.displayResults();
     }
 
-    // Display final results
+    // Update displayResults method
     displayResults() {
     const endTime = Date.now();
     this.totalTime = Math.floor((endTime - this.startTime) / 1000);
+    const stats = this.getStatistics();
     
     console.clear();
     console.log(chalk.cyan.bold('\n🏁 GAME OVER! 🏁\n'));
     console.log(chalk.yellow('━'.repeat(40)));
     console.log(chalk.white.bold(`\n📊 Your Results:\n`));
-    console.log(chalk.green(`✅ Correct Answers: ${this.score}`));
-    console.log(chalk.red(`❌ Wrong Answers: ${questions.length - this.score}`));
-    console.log(chalk.blue(`📝 Total Questions: ${questions.length}`));
-    console.log(chalk.magenta(`⏱️  Time Taken: ${this.totalTime} seconds`));
+    console.log(chalk.green(`✅ Correct Answers: ${stats.correctAnswers}`));
+    console.log(chalk.red(`❌ Wrong Answers: ${stats.wrongAnswers}`));
+    console.log(chalk.blue(`📝 Total Questions: ${stats.totalQuestions}`));
+    console.log(chalk.magenta(`⏱️  Time Taken: ${this.formatTime(this.totalTime)}`));
     
     // Calculate percentage
     const percentage = ((this.score / questions.length) * 100).toFixed(1);
@@ -95,6 +96,40 @@ class TriviaGame {
     });
     
     return answer;
+    }
+
+    // Add these methods to the TriviaGame class
+
+    // Get statistics using array methods
+    getStatistics() {
+    const totalQuestions = questions.length;
+    const correctAnswers = this.score;
+    const wrongAnswers = totalQuestions - correctAnswers;
+    
+    // Use map to create an array of question difficulties (example)
+    const questionLengths = questions.map(q => q.question.length);
+    
+    // Use filter to count questions with 4 options
+    const standardQuestions = questions.filter(q => q.options.length === 4);
+    
+    // Use reduce to calculate total options
+    const totalOptions = questions.reduce((sum, q) => sum + q.options.length, 0);
+    
+    return {
+        totalQuestions,
+        correctAnswers,
+        wrongAnswers,
+        averageQuestionLength: questionLengths.reduce((a, b) => a + b) / totalQuestions,
+        standardQuestions: standardQuestions.length,
+        totalOptions,
+    };
+    }
+
+    // Format time nicely
+    formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
     }
 }
 
