@@ -3,7 +3,7 @@ const questions = [
   {
     question: "What is the capital of France?",
     options: ["London", "Berlin", "Paris", "Madrid"],
-    correctAnswer: 2, // Index of correct option
+    correctAnswer: 2,
   },
   {
     question: "Which planet is known as the Red Planet?",
@@ -27,4 +27,4 @@ const questions = [
   },
 ];
 
-module.exports = questions;
+export default questions;

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import chalk from 'chalk';
-const TriviaGame = require('./game.js');
+import TriviaGame from './game.js';
 
 async function main() {
   try {
